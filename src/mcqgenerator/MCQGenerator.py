@@ -8,9 +8,13 @@ from src.mcqgenerator.logger import logging
 
 #importing necessary packages packages from langchain
 from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models.openai import ChatOpenAI
+from langchain_openai import ChatOpenAI
+
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chains import SequentialChain
+
 
 
 # Load environment variables from the .env file
@@ -23,28 +27,25 @@ print("Value of MY_VARIABLE:", key)
 
 llm = ChatOpenAI(openai_api_key=key, model_name="gpt-3.5-turbo", temperature=0.3)
 
-
 template="""
-    Text:{text}
-    You are an expert MCQ maker. Given the above text, it is your job to \
-    create a quiz  of {number} multiple choice questions for {subject} students in {tone} tone. 
-    Make sure the questions are not repeated and check all the questions to be conforming the text as well.
-    Make sure to format your response like  RESPONSE_JSON below  and use it as a guide. \
-    Ensure to make {number} MCQs
-    ### RESPONSE_JSON
-    {response_json}
+Text:{text}
+You are an expert MCQ maker. Given the above text, it is your job to \
+create a quiz  of {number} multiple choice questions for {subject} students in {tone} tone. 
+Make sure the questions are not repeated and check all the questions to be conforming the text as well.
+Make sure to format your response like  RESPONSE_JSON below  and use it as a guide. \
+Ensure to make {number} MCQs
+### RESPONSE_JSON
+{response_json}
 
 """
 
-
 quiz_generation_prompt = PromptTemplate(
-    input_variables = ["text", "number", "grade", "tone", "response_json"],
+    input_variables=["text", "number", "grade", "tone", "response_json"],
     template=template)
 
 
 
-quiz_chain = LLMChain(llm=llm, prompt=quiz_generation_prompt, output_key="quiz", verbose=True)
-
+quiz_chain=LLMChain(llm=llm, prompt=quiz_generation_prompt, output_key="quiz", verbose=True)
 
 template="""
 You are an expert english grammarian and writer. Given a Multiple Choice Quiz for {subject} students.\

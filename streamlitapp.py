@@ -15,10 +15,8 @@ from src.mcqgenerator.logger import logging
 with open('Response.json', 'r') as file:
     RESPONSE_JSON = json.load(file)
 
-
 #creating a title for the app
 st.title("MCQs Creator Application with LangChain 🦜⛓️")
-
 
 #Create a form using st.form
 with st.form("user_inputs"):
@@ -65,6 +63,7 @@ with st.form("user_inputs"):
                 print(f"Prompt Tokens:{cb.prompt_tokens}")
                 print(f"Completion Tokens:{cb.completion_tokens}")
                 print(f"Total Cost:{cb.total_cost}")
+                
                 if isinstance(response, dict):
                     #Extract the quiz data from the response
                     quiz=response.get("quiz", None)
